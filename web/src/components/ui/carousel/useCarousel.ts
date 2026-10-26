@@ -12,25 +12,37 @@ interface CarouselConfig {
   autoplay?: number;
   /** Crossfade between slides instead of sliding */
   fade?: boolean;
+  /**
+   * Under reduced motion, keep the crossfade and autoplay instead of stopping.
+   * A fade has no movement across the screen (owner's choice for the hero).
+   */
+  fadeWhenReducedMotion?: boolean;
   options?: EmblaOptionsType;
 }
 
 /**
  * Shared Embla setup for every carousel on the site: prev/next, the selected
  * index, autoplay that pauses while the pointer or keyboard focus is inside
- * `rootProps`, and reduced motion (no autoplay, no fade, instant jumps).
- * The autoplay plugin itself pauses while the tab is hidden.
+ * `rootProps`, and reduced motion (no autoplay, no fade, instant jumps, unless
+ * `fadeWhenReducedMotion`). The autoplay plugin itself pauses while the tab is hidden.
  */
-export function useCarousel({ autoplay, fade = false, options }: CarouselConfig = {}) {
+export function useCarousel({
+  autoplay,
+  fade = false,
+  fadeWhenReducedMotion = false,
+  options,
+}: CarouselConfig = {}) {
   const reducedMotion = useReducedMotion();
+  // Reduced motion and no exception: no plugins, and navigation jumps instantly
+  const still = reducedMotion && !(fade && fadeWhenReducedMotion);
 
   const plugins = useMemo(() => {
-    if (reducedMotion) return [];
+    if (still) return [];
     return [
       ...(fade ? [Fade()] : []),
       ...(autoplay ? [Autoplay({ delay: autoplay, stopOnInteraction: false })] : []),
     ];
-  }, [reducedMotion, fade, autoplay]);
+  }, [still, fade, autoplay]);
 
   const [viewportRef, emblaApi] = useEmblaCarousel({ loop: true, ...options }, plugins);
 
@@ -73,19 +85,19 @@ export function useCarousel({ autoplay, fade = false, options }: CarouselConfig 
   // Manual navigation restarts the autoplay countdown
   const scrollTo = useCallback(
     (index: number) => {
-      emblaApi?.scrollTo(index, reducedMotion);
+      emblaApi?.scrollTo(index, still);
       emblaApi?.plugins().autoplay?.reset();
     },
-    [emblaApi, reducedMotion],
+    [emblaApi, still],
   );
   const scrollPrev = useCallback(() => {
-    emblaApi?.scrollPrev(reducedMotion);
+    emblaApi?.scrollPrev(still);
     emblaApi?.plugins().autoplay?.reset();
-  }, [emblaApi, reducedMotion]);
+  }, [emblaApi, still]);
   const scrollNext = useCallback(() => {
-    emblaApi?.scrollNext(reducedMotion);
+    emblaApi?.scrollNext(still);
     emblaApi?.plugins().autoplay?.reset();
-  }, [emblaApi, reducedMotion]);
+  }, [emblaApi, still]);
 
   /** Spread on the element that should pause autoplay on hover or focus */
   const rootProps = {

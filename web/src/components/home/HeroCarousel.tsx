@@ -13,9 +13,12 @@ interface HeroCarouselProps {
 }
 
 export default function HeroCarousel({ slides, children }: HeroCarouselProps) {
+  // With reduced motion the slides still crossfade every 6s; only the zoom and
+  // the text entrance (CSS motion-safe) are turned off
   const { viewportRef, selectedIndex, scrollTo, rootProps } = useCarousel({
     autoplay: 6000,
     fade: true,
+    fadeWhenReducedMotion: true,
   });
 
   // Keep zooming the outgoing slide while it fades out, so it doesn't snap back
