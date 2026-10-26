@@ -3,7 +3,13 @@
 import { placeholderImages } from "@/lib/placeholder-images";
 import type { HeroSlide, Project, SiteSettings } from "./types";
 
-const [imgA, imgB] = placeholderImages.project;
+// TEMPORARY images (see placeholder-images.ts); the client replaces them via the admin panel.
+// Project n gets image n as its cover; its gallery is the cover plus the next three images.
+const projectImages = placeholderImages.projects;
+const imagesFor = (n: number) => ({
+  cover: projectImages[n - 1],
+  gallery: [0, 1, 2, 3].map((k) => projectImages[(n - 1 + k) % projectImages.length]),
+});
 
 export const placeholderSettings: SiteSettings = {
   companyName: "Atelier JK&WA Pte. Ltd.",
@@ -26,6 +32,7 @@ export const placeholderHeroSlides: HeroSlide[] = placeholderImages.heroSlides.m
 );
 
 // PLACEHOLDER PROJECTS: names, text and images are stand-ins, not real client work.
+// Featured = the projects with covers 1, 2, 3 (the most on-brand images, per IMAGE-MAP).
 export const placeholderProjects: Project[] = [
   {
     id: "p1",
@@ -37,8 +44,7 @@ export const placeholderProjects: Project[] = [
     summary: "A family home arranged around natural light, warm timber and quiet, uncluttered rooms.",
     description:
       "A family home arranged around natural light, warm timber and quiet, uncluttered rooms.\n\nPlaceholder description. The full project story will be added when the client provides it.",
-    cover: imgA,
-    gallery: [imgA, imgB],
+    ...imagesFor(1),
     featured: true,
     sortOrder: 1,
   },
@@ -52,8 +58,7 @@ export const placeholderProjects: Project[] = [
     summary: "A waterfront villa where open living spaces flow out to the garden and the sea breeze.",
     description:
       "A waterfront villa where open living spaces flow out to the garden and the sea breeze.\n\nPlaceholder description. The full project story will be added when the client provides it.",
-    cover: imgB,
-    gallery: [imgB, imgA],
+    ...imagesFor(2),
     featured: true,
     sortOrder: 2,
   },
@@ -67,9 +72,8 @@ export const placeholderProjects: Project[] = [
     summary: "A city apartment reworked with natural materials and calm, practical storage.",
     description:
       "A city apartment reworked with natural materials and calm, practical storage.\n\nPlaceholder description. The full project story will be added when the client provides it.",
-    cover: imgA,
-    gallery: [imgA, imgB],
-    featured: false,
+    ...imagesFor(3),
+    featured: true,
     sortOrder: 3,
   },
   {
@@ -82,9 +86,8 @@ export const placeholderProjects: Project[] = [
     summary: "A spa designed for stillness, with soft lighting, stone and timber treatment rooms.",
     description:
       "A spa designed for stillness, with soft lighting, stone and timber treatment rooms.\n\nPlaceholder description. The full project story will be added when the client provides it.",
-    cover: imgB,
-    gallery: [imgB, imgA],
-    featured: true,
+    ...imagesFor(4),
+    featured: false,
     sortOrder: 4,
   },
   {
@@ -97,8 +100,7 @@ export const placeholderProjects: Project[] = [
     summary: "A neighbourhood café inspired by the simplicity and rhythm of a traditional tea house.",
     description:
       "A neighbourhood café inspired by the simplicity and rhythm of a traditional tea house.\n\nPlaceholder description. The full project story will be added when the client provides it.",
-    cover: imgA,
-    gallery: [imgA, imgB],
+    ...imagesFor(5),
     featured: false,
     sortOrder: 5,
   },
@@ -112,8 +114,7 @@ export const placeholderProjects: Project[] = [
     summary: "A compact workplace balancing focused desks with a calm, welcoming reception.",
     description:
       "A compact workplace balancing focused desks with a calm, welcoming reception.\n\nPlaceholder description. The full project story will be added when the client provides it.",
-    cover: imgB,
-    gallery: [imgB, imgA],
+    ...imagesFor(6),
     featured: false,
     sortOrder: 6,
   },

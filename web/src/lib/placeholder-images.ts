@@ -29,10 +29,39 @@ export const ABOUT: SiteImage = {
   objectPosition: "50% 60%",
 };
 
+// From images/Services image.jpg
+export const SERVICES: SiteImage = {
+  src: "/images/services/services.jpg",
+  alt: "Timber-lined studio home with exposed beams, an open staircase and built-in shelving",
+  width: 1024,
+  height: 684,
+  objectPosition: "60% 50%",
+};
+
+// From images/Contact image.jpg
+export const CONTACT: SiteImage = {
+  src: "/images/contact/contact.jpg",
+  alt: "Japanese garden with a stone-edged pond, a stone lantern and clipped shrubs",
+  width: 1108,
+  height: 1477,
+  objectPosition: "50% 65%",
+};
+
+// From images/1.jpg–6.jpg. TEMPORARY stand-ins for the placeholder projects;
+// the client replaces them with real project photos through the admin panel.
+export const PROJECT_IMAGES: ProjectImage[] = [
+  { src: "/images/projects/placeholder-1.jpg", width: 450, height: 556, alt: "Light timber dining area with a high wooden ceiling and a piano" },
+  { src: "/images/projects/placeholder-2.jpg", width: 852, height: 1286, alt: "Traditional timber building beside a narrow canal with koi" },
+  { src: "/images/projects/placeholder-3.jpg", width: 895, height: 1080, alt: "Living room under exposed roof beams with a tall arched window" },
+  { src: "/images/projects/placeholder-4.jpg", width: 895, height: 1080, alt: "Restaurant hall with dark timber trusses and long wooden tables" },
+  { src: "/images/projects/placeholder-5.jpg", width: 895, height: 1080, alt: "Bathroom with green tiled walls and a freestanding white bathtub" },
+  { src: "/images/projects/placeholder-6.jpg", width: 990, height: 1280, alt: "Cherry blossom trees in bloom along a temple path" },
+];
+
 export const placeholderImages = {
   heroSlides: [HERO_1, HERO_2],
   about: ABOUT,
-  services: HERO_1,
-  contact: HERO_2,
-  project: [HERO_1, HERO_2],
+  services: SERVICES,
+  contact: CONTACT,
+  projects: PROJECT_IMAGES,
 } as const;

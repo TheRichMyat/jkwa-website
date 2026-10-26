@@ -10,9 +10,9 @@ The source of truth is `reference/mockup-full.png`. It's 866px wide and represen
 | `stone` | `#F1F0EB` | alternate section background (Services, Contact right panel) |
 | `ink` | `#2B2925` | headings on light backgrounds |
 | `body` | `#6B665E` | body text on light backgrounds |
-| `muted` | `#9A948A` | small captions, feature sub-text |
+| `muted` | `#726C63` | small captions, feature sub-text (darkened in Phase 2 for 4.5:1 contrast) |
 | `gold` | `#B28E5A` | logo, icons, eyebrow dash lines, kanji, thin dividers |
-| `gold-deep` | `#967245` | filled button background |
+| `gold-deep` | `#88673F` | filled button background, gold text (darkened in Phase 2 for 4.5:1 contrast) |
 | `gold-light` | `#C2A68B` | kanji / decorative on light bg |
 | `night` | `#181916` | Contact dark panel |
 | `night-deep` | `#11110F` | Footer |
@@ -86,7 +86,10 @@ Light site only. Remove the dark-mode media query that create-next-app added.
   - then a 24px gap and the text (Jost 14px, `body`)
 - Mobile: stack text → image → WA panel.
 
-### Designer Quotes (Phase 2, new; keep it consistent with the mockup style)
+### Designer Quotes — AS BUILT in Phase 2 (owner-approved; this overrides the original spec below)
+The quotes are in Jost 18px (17px mobile), left-aligned in a 640px column, with the gold “ and the role on the same left edge. **No autoplay**: they change on arrow click or swipe only. The stage height is fixed to the tallest quote.
+
+### Designer Quotes (original Phase 2 spec, kept for reference)
 - bg `paper`, separated from About by a centred 1px `line` hairline in the container.
 - Centred eyebrow + heading.
 - One quote visible at a time, centred, max-width 820px:
