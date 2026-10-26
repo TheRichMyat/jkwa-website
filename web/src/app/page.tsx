@@ -1,9 +1,9 @@
-// Phase 1 skeleton: labelled placeholders so the header nav can be tested.
-// Each section is replaced by its real component in Phases 2–3.
-const SECTIONS = [
-  { id: "home", label: "Hero" },
-  { id: "about", label: "About" },
-  { id: "designers", label: "Designer Quotes" },
+import About from "@/components/home/About";
+import DesignerQuotes from "@/components/home/DesignerQuotes";
+import Hero from "@/components/home/Hero";
+
+// Placeholders until Phase 3 builds these sections
+const PLACEHOLDERS = [
   { id: "services", label: "Services" },
   { id: "portfolio", label: "Portfolio" },
   { id: "contact", label: "Contact" },
@@ -12,13 +12,16 @@ const SECTIONS = [
 export default function Home() {
   return (
     <>
-      {SECTIONS.map((section, i) => (
+      <Hero />
+      <About />
+      <DesignerQuotes />
+      {PLACEHOLDERS.map((section, i) => (
         <section
           key={section.id}
           id={section.id}
           aria-label={section.label}
           className={`flex min-h-[400px] items-center justify-center border-b border-line ${
-            i % 2 ? "bg-stone" : "bg-paper"
+            i % 2 ? "bg-paper" : "bg-stone"
           }`}
         >
           <p className="font-sans text-xs uppercase tracking-[0.28em] text-muted">

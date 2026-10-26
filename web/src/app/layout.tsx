@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Jost, Noto_Serif_JP } from "next/font/google";
+import { Cormorant_Garamond, Jost } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import "./globals.css";
@@ -17,13 +17,6 @@ const jost = Jost({
   weight: ["300", "400", "500"],
 });
 
-// Only used for the 和 kanji, so it isn't preloaded
-const notoSerifJp = Noto_Serif_JP({
-  variable: "--font-noto-serif-jp",
-  weight: "400",
-  preload: false,
-});
-
 export const metadata: Metadata = {
   title: {
     template: "%s | Atelier JK&WA",
@@ -37,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${jost.variable} ${notoSerifJp.variable} antialiased`}
+      className={`${cormorant.variable} ${jost.variable} antialiased`}
     >
       <body className="flex min-h-screen flex-col">
         <Header />

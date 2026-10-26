@@ -42,6 +42,7 @@ The owner drops the client's original photos into `images/` (root, next to `plan
 2. Resize it so the longest side is at most 2400px, re-save it as JPG quality ~82, and strip the metadata (use `sharp` as a dev script, `web/scripts/optimize-images.mjs`, written the first time it's needed).
 3. Point the data layer / `placeholder-images.ts` at the new path, and note in the phase report which original was used for which slot.
 4. If a needed image is missing, keep the placeholder and say so in the report. Don't stop the phase.
+5. **Portfolio images** are named by number (`1.jpg`, `2.jpg`, `3.jpg`, …). They're temporary stand-ins for the placeholder projects (Phases 3–4). The client replaces them with real projects through the admin panel later, so just spread them across the placeholder projects. Don't try to match them to project names.
 
 The `images/` folder itself is committed to git **only if the total is under ~50MB**. Otherwise add it to `.gitignore` and mention that in the report.
 
@@ -50,8 +51,8 @@ The `images/` folder itself is committed to git **only if the total is under ~50
 | # | Phase | Status |
 |---|-------|--------|
 | 0 | Project setup (Next.js, git, GitHub) | ✅ Done |
-| 1 | Foundation: design tokens, fonts, assets, data layer, Header, Footer | ⏳ Next |
-| 2 | Hero carousel, About, Designer Quotes | |
+| 1 | Foundation: design tokens, fonts, assets, data layer, Header, Footer | ✅ Done (approved) |
+| 2 | Hero carousel, About, Designer Quotes | ⏳ Next |
 | 3 | Services, Portfolio carousel, Contact | |
 | 4 | Projects page + project detail page | |
 | 5 | Polish: animations, responsive QA, SEO, Privacy/Terms pages, accessibility | |
