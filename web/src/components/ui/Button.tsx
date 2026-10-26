@@ -18,7 +18,7 @@ interface ButtonProps {
 }
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-gold-deep text-white hover:bg-[#86663d]",
+  primary: "bg-gold-deep text-white hover:bg-[#765936]",
   outline: "border border-ink/20 text-ink hover:bg-ink/5",
   "outline-dark": "border border-white/60 text-white hover:bg-white/10",
 };

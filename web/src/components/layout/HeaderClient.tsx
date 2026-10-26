@@ -140,7 +140,6 @@ export default function HeaderClient({ bookletUrl, questionnaireUrl }: HeaderCli
         <Link
           href="/"
           className="mx-auto flex h-[88px] w-fit items-center gap-3.5"
-          aria-label="Atelier JK&WA — home"
         >
           <Image
             src="/brand/logo-mark-gold.png"
@@ -170,7 +169,6 @@ export default function HeaderClient({ bookletUrl, questionnaireUrl }: HeaderCli
           <Link
             href="/"
             className="flex min-w-0 items-center gap-3 lg:hidden xl:flex xl:gap-3.5"
-            aria-label="Atelier JK&WA — home"
           >
             <Image
               src="/brand/logo-mark-gold.png"

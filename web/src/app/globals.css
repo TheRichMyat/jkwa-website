@@ -9,9 +9,9 @@
   --color-stone: #f1f0eb;
   --color-ink: #2b2925;
   --color-body: #6b665e;
-  --color-muted: #9a948a;
+  --color-muted: #726c63; /* darkened from #9a948a for 4.5:1 on paper and stone */
   --color-gold: #b28e5a;
-  --color-gold-deep: #967245;
+  --color-gold-deep: #88673f; /* darkened from #967245 for 4.5:1 on paper and stone */
   --color-gold-light: #c2a68b;
   --color-night: #181916;
   --color-night-deep: #11110f;

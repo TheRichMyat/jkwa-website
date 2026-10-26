@@ -55,7 +55,6 @@ export default async function Footer() {
           <Link
             href="/"
             className="inline-flex items-center gap-4 lg:flex-col lg:items-start xl:flex-row xl:items-center"
-            aria-label="Atelier JK&WA — home"
           >
             <Image
               src="/brand/logo-mark-gold.png"
@@ -75,7 +74,7 @@ export default async function Footer() {
             </span>
           </Link>
           <p className="mt-6 text-[13px] text-white/70">Timeless spaces. Lasting impressions.</p>
-          <p className="mt-2 text-xs text-white/40">UEN {settings.uen}</p>
+          <p className="mt-2 text-xs text-white/45">UEN {settings.uen}</p>
           {socials.length > 0 && (
             <ul className="-ml-3 mt-4 flex items-center">
               {socials.map(({ key, label, Icon }) => (
