@@ -51,7 +51,12 @@ export default async function Footer() {
       <Container className="grid gap-10 pb-12 md:grid-cols-2 md:gap-x-12 lg:grid-cols-[1.55fr_1fr_1.1fr_1.45fr] lg:gap-x-10 lg:pb-16 xl:gap-x-12">
         {/* Brand */}
         <div className="md:col-span-2 lg:col-span-1">
-          <Link href="/" className="inline-flex items-center gap-4" aria-label="Atelier JK&WA — home">
+          {/* Logo sits above the name between lg and xl, where the column is too narrow for both */}
+          <Link
+            href="/"
+            className="inline-flex items-center gap-4 lg:flex-col lg:items-start xl:flex-row xl:items-center"
+            aria-label="Atelier JK&WA — home"
+          >
             <Image
               src="/brand/logo-mark-gold.png"
               alt=""
@@ -61,10 +66,10 @@ export default async function Footer() {
               className="h-14 w-auto shrink-0"
             />
             <span className="flex flex-col">
-              <span className="font-display text-[22px] leading-tight text-white">
+              <span className="whitespace-nowrap font-display text-[22px] leading-tight text-white">
                 {settings.companyName}
               </span>
-              <span className="mt-1.5 font-sans text-[9px] uppercase leading-none tracking-[0.3em] text-white/50">
+              <span className="mt-1.5 whitespace-nowrap font-sans text-[9px] uppercase leading-none tracking-[0.3em] text-white/50">
                 Interior Design &amp; Consultancy
               </span>
             </span>
