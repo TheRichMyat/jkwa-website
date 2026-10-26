@@ -34,7 +34,10 @@ function subscribeScroll(callback: () => void) {
   };
 }
 
-const getScrolled = () => window.scrollY > 10;
+// From lg to xl the bar only sticks once the 88px masthead has scrolled away
+const MASTHEAD_QUERY = "(min-width: 1024px) and (max-width: 1279.98px)";
+const getScrolled = () =>
+  window.scrollY > (window.matchMedia(MASTHEAD_QUERY).matches ? 88 : 10);
 const getAtBottom = () =>
   window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
 const getFalse = () => false;
@@ -128,16 +131,15 @@ export default function HeaderClient({ bookletUrl, questionnaireUrl }: HeaderCli
 
   const closeMenu = () => setMenuOpen(false);
 
+  // `contents` lets the bar below stick to the page rather than to <header>.
+  // From lg to xl the header is two rows: a centred masthead that scrolls away,
+  // then the sticky nav bar. Below lg and from xl it is a single sticky row.
   return (
-    <header
-      className={`sticky top-0 z-50 border-b border-line bg-paper transition-shadow duration-300 ${
-        scrolled ? "shadow-[0_6px_24px_-12px_rgba(43,41,37,0.18)]" : ""
-      }`}
-    >
-      <Container className="flex h-[63px] items-center justify-between gap-6 lg:h-[87px]">
+    <header className="contents">
+      <div className="hidden border-b border-line bg-paper lg:block xl:hidden">
         <Link
           href="/"
-          className="flex min-w-0 items-center gap-3 lg:gap-3.5"
+          className="mx-auto flex h-[88px] w-fit items-center gap-3.5"
           aria-label="Atelier JK&WA — home"
         >
           <Image
@@ -145,57 +147,88 @@ export default function HeaderClient({ bookletUrl, questionnaireUrl }: HeaderCli
             alt=""
             width={400}
             height={365}
-            preload
             sizes="57px"
-            className="h-10 w-auto shrink-0 lg:h-[52px]"
+            className="h-[52px] w-auto shrink-0"
           />
-          <span className="flex min-w-0 flex-col lg:hidden xl:flex">
-            <span className="whitespace-nowrap font-display text-[17px] leading-tight text-gold-deep lg:text-[22px]">
+          <span className="flex flex-col">
+            <span className="whitespace-nowrap font-display text-[22px] leading-tight text-gold-deep">
               Atelier JK&amp;WA Pte. Ltd.
             </span>
-            <span className="mt-1 hidden whitespace-nowrap font-sans text-[9px] uppercase leading-none tracking-[0.3em] text-muted min-[400px]:block">
+            <span className="mt-1 whitespace-nowrap font-sans text-[9px] uppercase leading-none tracking-[0.3em] text-muted">
               Interior Design &amp; Consultancy
             </span>
           </span>
         </Link>
+      </div>
 
-        <nav aria-label="Main" className="hidden lg:ml-auto lg:block">
-          <ul className="flex items-center gap-8 wide:gap-10">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.id}>
-                <a
-                  href={sectionHref(item.id, onHome)}
-                  aria-current={active === item.id ? "location" : undefined}
-                  onClick={() => onHome && setObserved(item.id)}
-                  className={`relative block py-2 font-sans text-xs uppercase tracking-[0.12em] text-ink transition-colors hover:text-gold-deep after:absolute after:inset-x-0 after:bottom-[2px] after:h-px after:bg-gold after:transition-opacity ${
-                    active === item.id ? "after:opacity-100" : "after:opacity-0"
-                  }`}
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+      <div
+        className={`sticky top-0 z-50 border-b border-line bg-paper transition-shadow duration-300 ${
+          scrolled ? "shadow-[0_6px_24px_-12px_rgba(43,41,37,0.18)]" : ""
+        }`}
+      >
+        <Container className="flex h-[63px] items-center justify-between gap-6 xl:h-[87px]">
+          <Link
+            href="/"
+            className="flex min-w-0 items-center gap-3 lg:hidden xl:flex xl:gap-3.5"
+            aria-label="Atelier JK&WA — home"
+          >
+            <Image
+              src="/brand/logo-mark-gold.png"
+              alt=""
+              width={400}
+              height={365}
+              preload
+              sizes="57px"
+              className="h-10 w-auto shrink-0 xl:h-[52px]"
+            />
+            <span className="flex min-w-0 flex-col">
+              <span className="whitespace-nowrap font-display text-[17px] leading-tight text-gold-deep xl:text-[22px]">
+                Atelier JK&amp;WA Pte. Ltd.
+              </span>
+              <span className="mt-1 hidden whitespace-nowrap font-sans text-[9px] uppercase leading-none tracking-[0.3em] text-muted min-[400px]:block">
+                Interior Design &amp; Consultancy
+              </span>
+            </span>
+          </Link>
 
-        <div className="hidden items-center gap-3 lg:flex wide:ml-4">
-          <BookletButton url={bookletUrl} size="sm" />
-          <QuestionnaireButton url={questionnaireUrl} size="sm" />
-        </div>
+          <nav aria-label="Main" className="hidden lg:block xl:ml-auto">
+            <ul className="flex items-center gap-8 wide:gap-10">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.id}>
+                  <a
+                    href={sectionHref(item.id, onHome)}
+                    aria-current={active === item.id ? "location" : undefined}
+                    onClick={() => onHome && setObserved(item.id)}
+                    className={`relative block py-2 font-sans text-xs uppercase tracking-[0.12em] text-ink transition-colors hover:text-gold-deep after:absolute after:inset-x-0 after:bottom-[2px] after:h-px after:bg-gold after:transition-opacity ${
+                      active === item.id ? "after:opacity-100" : "after:opacity-0"
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-        <button
-          ref={menuButtonRef}
-          type="button"
-          className="-mr-2.5 flex size-11 shrink-0 flex-col focus-visible:outline-1 focus-visible:outline-gold items-center justify-center gap-[7px] lg:hidden"
-          aria-label="Open menu"
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-          onClick={() => setMenuOpen(true)}
-        >
-          <span aria-hidden className="h-px w-6 bg-ink" />
-          <span aria-hidden className="h-px w-6 bg-ink" />
-        </button>
-      </Container>
+          <div className="hidden items-center gap-3 lg:flex wide:ml-4">
+            <BookletButton url={bookletUrl} size="sm" />
+            <QuestionnaireButton url={questionnaireUrl} size="sm" />
+          </div>
+
+          <button
+            ref={menuButtonRef}
+            type="button"
+            className="-mr-2.5 flex size-11 shrink-0 flex-col focus-visible:outline-1 focus-visible:outline-gold items-center justify-center gap-[7px] lg:hidden"
+            aria-label="Open menu"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setMenuOpen(true)}
+          >
+            <span aria-hidden className="h-px w-6 bg-ink" />
+            <span aria-hidden className="h-px w-6 bg-ink" />
+          </button>
+        </Container>
+      </div>
 
       {/* Mobile drawer */}
       <div

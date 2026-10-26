@@ -26,13 +26,13 @@
   --font-jp: var(--font-noto-serif-jp), serif;
 }
 
-/* Keeps anchor jumps clear of the sticky header (64px mobile, 88px from lg) */
+/* Keeps anchor jumps clear of the sticky bar (64px up to xl, 88px from xl) */
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 64px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   html {
     scroll-padding-top: 88px;
   }
