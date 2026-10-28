@@ -43,6 +43,69 @@ html {
   }
 }
 
+/* Motion standards (DESIGN-SPEC "Motion & scrolling"): one easing site-wide */
+:root {
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/*
+  Scroll reveals (components/motion/Reveal.tsx). Server HTML is visible; the
+  client marks below-the-fold blocks "pending", then "shown" once in view.
+  Only opacity/transform animate; will-change is set only while pending/animating.
+*/
+[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(24px);
+  will-change: opacity, transform;
+}
+[data-reveal="shown"] {
+  transition:
+    opacity 800ms var(--ease-out-soft) var(--reveal-delay, 0ms),
+    transform 800ms var(--ease-out-soft) var(--reveal-delay, 0ms);
+}
+
+/* Image reveals: fade in once loaded, with a very subtle scale 1.04 -> 1 */
+[data-reveal-img="pending"] {
+  opacity: 0;
+  transform: scale(1.04);
+  will-change: opacity, transform;
+}
+[data-reveal-img="shown"] {
+  transition:
+    opacity 900ms var(--ease-out-soft),
+    transform 900ms var(--ease-out-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal-img] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Lightbox opening, and the projects grid after a filter change */
+@keyframes lightbox-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes grid-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Hero: slow zoom across a slide's lifetime, and the on-load text entrance */
 @keyframes hero-zoom {
   from {

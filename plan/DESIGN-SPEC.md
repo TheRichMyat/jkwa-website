@@ -187,4 +187,22 @@ The site must feel designed for phones, not just squeezed.
 - **Test on a real phone over LAN** (`npm run dev -- -H 0.0.0.0`) and in Chrome DevTools device mode, as well as desktop.
 
 ### Projects page + detail (Phase 4)
-Not in the mockup. Designed to match the home page style. Full spec in the Phase 4 file.
+Mockups: `reference/projects-list-mockup.png` (list) and `reference/project-detail-mockup.png` (detail). Full spec in the Phase 4 file. **Ignore the footers in those two images.** They're AI-generated with wrong contact details, and the footer already built in Phase 1 is the one used everywhere.
+
+## Motion & scrolling — standards (owner priority: "very clean and smooth")
+Every animation on the site follows these rules. Phase 4 applies them to the new pages, and Phase 5 does a full pass over the whole site.
+1. **Only animate `transform` and `opacity`** (plus `clip-path` for image reveals). Never animate width, height, top, margin or box-shadow during scroll. The Phase 3 portfolio `flex-grow` transition is the one approved exception (user-triggered, not scroll).
+2. **One easing curve site-wide:** `cubic-bezier(.22,.61,.36,1)` (store it as a CSS variable `--ease-out-soft`). Durations: reveals 700–900ms, hovers 250–350ms, image zoom on hover 900ms. Nothing bouncy, nothing elastic.
+3. **Scroll reveals:** one shared `Reveal` component (client, IntersectionObserver, `threshold ≈ 0.15`, `rootMargin: "0px 0px -8% 0px"`).
+   - Content fades in and moves up 24px, **once only**: it never re-animates when scrolling back up.
+   - Grid items stagger 80ms each, capped at 6 so long grids don't lag.
+   - Content already in view on page load shows without waiting.
+4. **Image reveals:** images fade in once they've **finished loading** (no half-painted images), with a very subtle scale 1.04 → 1.
+5. **No scroll-jacking.** Smooth wheel scrolling (Lenis) is added in Phase 5 for **desktop mouse/trackpad only**. Touch devices keep native scrolling, because iOS/Android momentum is already perfect. It's off under reduced motion, and anchor links must still land below the sticky header.
+6. **No layout shift:** every image reserves its space (`width`/`height` or aspect-ratio boxes) and fonts use `next/font`. Target CLS = 0.
+7. **Performance budget:**
+   - no JavaScript running on every scroll event (use IntersectionObserver, never `scroll` listeners for reveals)
+   - `will-change` only while an animation is running
+   - test in Chrome DevTools → Performance with 4× CPU throttling: scrolling the full home page and a project page must show no long tasks and no dropped frames
+8. **`prefers-reduced-motion`:** all reveals show instantly, no parallax, no smooth-wheel scrolling. The hero keeps its gentle crossfade (owner decision).
+9. **Restraint:** headings, paragraphs and images reveal; small UI (labels, buttons inside a revealed block) moves with their block, not separately. The site should feel calm, never busy.
