@@ -5,9 +5,10 @@ import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { getFeaturedProjects } from "@/lib/data";
 import PortfolioCarousel from "./PortfolioCarousel";
+import { buildPortfolioSlides } from "./portfolioSlides";
 
 export default async function Portfolio() {
-  const projects = await getFeaturedProjects();
+  const slides = buildPortfolioSlides(await getFeaturedProjects());
 
   const header = (
     <div>
@@ -21,8 +22,8 @@ export default async function Portfolio() {
   return (
     <section id="portfolio" aria-labelledby="portfolio-heading" className="bg-paper py-16 md:py-20 lg:py-24">
       <Container>
-        {/* No featured projects: just the heading and the link to the full list */}
-        {projects.length > 0 ? <PortfolioCarousel projects={projects} header={header} /> : header}
+        {/* No slides (no featured projects/images): just the heading and the link to the full list */}
+        {slides.length > 0 ? <PortfolioCarousel slides={slides} header={header} /> : header}
 
         <div className="mt-8 flex justify-center md:mt-7 md:justify-end">
           <Link

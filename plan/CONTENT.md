@@ -116,7 +116,7 @@ contactPerson:   Mr Kenji
 addressLines:    ["7 Temasek Boulevard", "#12-07, Suntec Tower One", "Singapore 038987"]
 phone:           +65 8028 7801
 fax:             +65 6917 8977
-email:           kenjisansg@gmail.com      <-- note the "g" (the mockup typo "kenjisans@" is WRONG)
+email:           wadesign@gmail.com        <-- changed by client request (Nov 2026); was kenjisansg@gmail.com
 hours:           Mon – Fri 9:00 AM – 6:00 PM (SGT)   <-- placeholder, client to confirm
 bookletUrl:      "#"   (placeholder until the client sends the Google Drive link)
 questionnaireUrl:"#"   (placeholder until the client sends the Google Form link)

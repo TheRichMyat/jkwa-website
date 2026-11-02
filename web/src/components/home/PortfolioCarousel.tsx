@@ -12,7 +12,7 @@ import {
 } from "react";
 import CarouselControls from "@/components/ui/carousel/CarouselControls";
 import { useCarousel } from "@/components/ui/carousel/useCarousel";
-import type { Project } from "@/lib/data";
+import type { PortfolioSlide } from "./portfolioSlides";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 const SIZES = "(min-width: 1024px) 46vw, (min-width: 768px) 88vw, 92vw";
@@ -59,17 +59,18 @@ function slotOf(offset: number, n: number) {
 }
 
 interface PortfolioCarouselProps {
-  projects: Project[];
+  /** Built by buildPortfolioSlides(): covers, topped up to 3 with gallery images */
+  slides: PortfolioSlide[];
   /** Server-rendered eyebrow + heading; the arrows sit beside it from md */
   header: ReactNode;
 }
 
-export default function PortfolioCarousel({ projects, header }: PortfolioCarouselProps) {
-  const n = projects.length;
+export default function PortfolioCarousel({ slides, header }: PortfolioCarouselProps) {
+  const n = slides.length;
 
   // `gen` remounts a card that jumps across the row (wrap-around), so it fades
   // in at its new slot instead of flying over the others
-  const [{ active, gen }, setState] = useState({ active: 0, gen: projects.map(() => 0) });
+  const [{ active, gen }, setState] = useState({ active: 0, gen: slides.map(() => 0) });
 
   const go = (next: number) =>
     setState((s) => {
@@ -151,7 +152,7 @@ export default function PortfolioCarousel({ projects, header }: PortfolioCarouse
               count={n}
               onPrev={prev}
               onNext={next}
-              itemLabel="project"
+              itemLabel="slide"
               hideCounter
             />
           </div>
@@ -161,7 +162,7 @@ export default function PortfolioCarousel({ projects, header }: PortfolioCarouse
       {/* Tablet/desktop */}
       <div className="mt-8 hidden md:block lg:mt-10">
         <p className="sr-only" aria-live="polite">
-          {`Project ${active + 1} of ${n}: ${projects[active].title}`}
+          {`Slide ${active + 1} of ${n}: ${slides[active].title}`}
         </p>
 
         <div
@@ -169,21 +170,21 @@ export default function PortfolioCarousel({ projects, header }: PortfolioCarouse
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
         >
-          {projects.map((project, i) => {
+          {slides.map((slide, i) => {
             const offset = offsetOf(i, active, n);
             const isActive = offset === 0;
             const visible = n <= 3 || Math.abs(offset) <= 1;
             return (
               <Link
-                key={`${project.id}-${gen[i]}`}
-                href={`/projects/${project.slug}`}
+                key={`${slide.id}-${gen[i]}`}
+                href={slide.href}
                 onClick={(e) => onCardClick(e, i)}
                 tabIndex={visible ? undefined : -1}
                 aria-hidden={visible ? undefined : true}
                 className={`group absolute inset-y-0 overflow-hidden transition-[left,width] duration-[600ms] ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none ${gen[i] > 0 ? "motion-safe:animate-[card-in_500ms_ease-out]" : ""} focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold ${SLOTS[slotOf(offset, n)]}`}
               >
                 <Image
-                  src={project.cover.src}
+                  src={slide.image.src}
                   alt=""
                   fill
                   sizes={SIZES}
@@ -204,9 +205,9 @@ export default function PortfolioCarousel({ projects, header }: PortfolioCarouse
                   <span className="block">
                     <span aria-hidden className="mb-3 block h-px w-10 bg-white/60" />
                     <span className="block font-display text-[22px] leading-tight text-white">
-                      {project.title}
+                      {slide.title}
                     </span>
-                    <span className="mt-1 block font-sans text-xs text-white/80">{project.location}</span>
+                    <span className="mt-1 block font-sans text-xs text-white/80">{slide.location}</span>
                   </span>
                   {n > 1 && (
                     <span aria-hidden className="font-sans text-xs tracking-[0.2em] text-white/70">
@@ -224,25 +225,25 @@ export default function PortfolioCarousel({ projects, header }: PortfolioCarouse
       <div className="mt-8 md:hidden">
         <div ref={mobileViewportRef} className="overflow-hidden">
           <div className="-ml-3 flex touch-pan-y">
-            {projects.map((project, i) => (
+            {slides.map((slide, i) => (
               <div
-                key={project.id}
+                key={slide.id}
                 role="group"
                 aria-roledescription="slide"
                 aria-label={`${i + 1} of ${n}`}
                 className={`min-w-0 pl-3 ${n > 1 ? "flex-[0_0_92%]" : "flex-[0_0_100%]"}`}
               >
                 <Link
-                  href={`/projects/${project.slug}`}
+                  href={slide.href}
                   className="relative block aspect-[4/3] overflow-hidden focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold"
                 >
-                  <Image src={project.cover.src} alt="" fill sizes={SIZES} className="object-cover" />
+                  <Image src={slide.image.src} alt="" fill sizes={SIZES} className="object-cover" />
                   <span className="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 via-black/10 via-45% to-transparent p-5">
                     <span className="block">
                       <span className="block font-display text-[22px] leading-tight text-white">
-                        {project.title}
+                        {slide.title}
                       </span>
-                      <span className="mt-1 block font-sans text-xs text-white/80">{project.location}</span>
+                      <span className="mt-1 block font-sans text-xs text-white/80">{slide.location}</span>
                     </span>
                   </span>
                 </Link>
@@ -256,7 +257,7 @@ export default function PortfolioCarousel({ projects, header }: PortfolioCarouse
             count={n}
             onPrev={mobilePrev}
             onNext={mobileNext}
-            itemLabel="project"
+            itemLabel="slide"
             className="mt-8 justify-center"
           />
         )}
