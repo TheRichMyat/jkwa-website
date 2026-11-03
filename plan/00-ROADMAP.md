@@ -12,7 +12,7 @@ Read this file first in every phase. Then read the phase file you were given.
 - **Stack:**
   - Next.js 16 (App Router, `web/src`), TypeScript, Tailwind CSS v4
   - Supabase (database, auth, storage) for the admin panel
-  - Hosting on Vercel. The client already owns the domain.
+  - Hosting on Netlify (Free plan). The client already owns the domain.
 - **The design source of truth** is `reference/mockup-full.png`. Match it closely. Rules for the parts the mockup doesn't cover are in `plan/DESIGN-SPEC.md`.
 - **All website copy** is in `plan/CONTENT.md`. Use that text exactly. Don't invent copy.
 
@@ -60,9 +60,10 @@ The `images/` folder itself is committed to git **only if the total is under ~50
 | 2 | Hero carousel, About, Designer Quotes | ✅ Done (approved) |
 | 3 | Services, Portfolio carousel, Contact | ✅ Done (approved) |
 | 4 | Projects list + project detail (mockups in `reference/`), data model for admin | ✅ Done |
-| 5 | Polish: site-wide scroll reveals + smooth scrolling (see Motion standards), responsive QA, SEO, Privacy/Terms pages, accessibility | ⏳ Next |
-| 6 | Supabase: tables, storage, security rules, connect the data layer | |
-| 7 | Admin panel: login, projects, hero slides, settings | |
-| 8 | Launch: keep-alive ping, Vercel deploy, domain, Search Console | |
+| — | FIX-01: client feedback (Services image, Ceylon Road, email) | ✅ Done, live |
+| 6 | Supabase: tables, storage, security rules, seed, connect the data layer, keep-alive | ✅ Done, on `develop` (not yet merged to main) |
+| 7 | Admin panel: login, projects, hero slides, settings | ⏳ Next |
+| 5 | Polish: site-wide scroll reveals + smooth scrolling (see Motion standards), responsive QA, SEO, Privacy/Terms pages, accessibility | after 7 |
+| 8 | Launch: Netlify production, client domain, `ALLOW_INDEXING`, Search Console | |
 
 Phases 1–5 are the front end, built with placeholder data. Phases 6–8 are the backend and launch.
