@@ -1,15 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import BeforeAfterSlider from "@/components/project/BeforeAfterSlider";
-import FactsStrip from "@/components/project/FactsStrip";
-import NextProjectBand from "@/components/project/NextProjectBand";
-import ProjectCover from "@/components/project/ProjectCover";
-import ProjectGallery from "@/components/project/ProjectGallery";
-import ProjectStory from "@/components/project/ProjectStory";
-import { Reveal } from "@/components/motion/Reveal";
-import CtaBand from "@/components/sections/CtaBand";
-import Container from "@/components/ui/Container";
-import Eyebrow from "@/components/ui/Eyebrow";
+import ProjectView from "@/components/project/ProjectView";
 import { getAdjacentProject, getAllProjectSlugs, getProjectBySlug } from "@/lib/data";
 
 const CATEGORY_LABEL = { residential: "Residential", commercial: "Commercial" } as const;
@@ -61,34 +52,5 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
   if (!project) notFound();
   const next = await getAdjacentProject(slug);
 
-  return (
-    <>
-      <ProjectCover project={project} />
-      <FactsStrip project={project} />
-      <ProjectStory story={project.story} />
-
-      {project.beforeAfter && (
-        <section aria-labelledby="before-after-heading" className="bg-stone py-16 md:py-20 lg:py-24">
-          <Container>
-            <Reveal>
-              <Eyebrow line="before">Transformation</Eyebrow>
-              <h2
-                id="before-after-heading"
-                className="mt-4 font-display text-[clamp(1.875rem,1.4rem+1.5vw,2.75rem)] font-normal leading-[1.15] text-ink"
-              >
-                Before &amp; After
-              </h2>
-            </Reveal>
-            <Reveal className="mt-8">
-              <BeforeAfterSlider images={project.beforeAfter} />
-            </Reveal>
-          </Container>
-        </section>
-      )}
-
-      <ProjectGallery images={project.gallery} title={project.title} />
-      <CtaBand />
-      <NextProjectBand project={next} />
-    </>
-  );
+  return <ProjectView project={project} next={next} />;
 }

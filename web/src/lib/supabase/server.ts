@@ -9,7 +9,7 @@ import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "./env";
  * "use cache" (it reads cookies).
  *
  * Server Components can't set cookies, so setAll is allowed to fail there; the
- * Phase 7 proxy (Next 16's middleware) refreshes the session on every request.
+ * proxy (src/proxy.ts) refreshes the session on every /admin request.
  */
 export async function serverClient() {
   const cookieStore = await cookies();

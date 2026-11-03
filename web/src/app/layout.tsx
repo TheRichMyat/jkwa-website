@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import PublicChrome from "@/components/layout/PublicChrome";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -33,9 +34,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${cormorant.variable} ${jost.variable} antialiased`}
     >
       <body className="flex min-h-screen flex-col">
-        <Header />
+        <PublicChrome>
+          <Header />
+        </PublicChrome>
         <main className="flex-1">{children}</main>
-        <Footer />
+        <PublicChrome>
+          <Footer />
+        </PublicChrome>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 # HANDOFF — read this first in any new session
 
-Last updated: 3 Nov 2026. This file is the single "where are we" summary for the Atelier JK&WA website. Any new session (Claude Code or a Claude chat) should read this file, then `plan/00-ROADMAP.md`, before doing anything.
+Last updated: 3 Nov 2026 (after Phase 7). This file is the single "where are we" summary for the Atelier JK&WA website. Any new session (Claude Code or a Claude chat) should read this file, then `plan/00-ROADMAP.md`, before doing anything.
 
 ## The project in one paragraph
 A portfolio website + admin panel for **Atelier JK&WA Pte. Ltd.** (Singapore, Japanese-inspired interior design / Design & Build). The owner (the developer) builds it **phase by phase**: a Claude chat writes the phase plan files in `plan/`, Claude Code implements them, and the owner reviews each phase and sends the report back. Desktop design must match the mockups in `reference/` closely. Mobile must feel professional. Motion must be calm and smooth (see DESIGN-SPEC → "Motion & scrolling — standards").
@@ -25,8 +25,8 @@ A portfolio website + admin panel for **Atelier JK&WA Pte. Ltd.** (Singapore, Ja
 | 0 Setup · 1 Foundation · 2 Hero/About/Quotes · 3 Services/Portfolio/Contact · 4 Projects list + detail | ✅ done, approved |
 | FIX-01 client feedback (sharp Services image, Ceylon Road only, email → wadesign@gmail.com) | ✅ done, **live on main** |
 | 6 Supabase (schema, storage bucket `media`, RLS, seed, data layer, keep-alive workflow) | ✅ done, **on develop only**, verified on develop--jkwa.netlify.app |
-| **7 Admin panel** (login, projects, hero slides, settings) | ⏳ **NEXT**: `plan/PHASE-7-admin.md` is written and ready to run |
-| 5 Polish (scroll reveals, Lenis desktop smooth scroll, performance ≥90, SEO + `ALLOW_INDEXING` switch, Privacy/Terms drafts, a11y) | written (`PHASE-5-polish.md`), runs **after** Phase 7 |
+| 7 Admin panel (login, projects, hero slides, settings) at `/admin` | ✅ done, **on develop only**. Guide: `plan/ADMIN-GUIDE.md` |
+| **5 Polish** (scroll reveals, Lenis desktop smooth scroll, performance ≥90, SEO + `ALLOW_INDEXING` switch, Privacy/Terms drafts, a11y) | ⏳ **NEXT**: `PHASE-5-polish.md` (`app/robots.ts` already exists from Phase 7 and disallows `/admin`; extend it) |
 | 8 Launch (merge to main, client domain, `ALLOW_INDEXING=true`, Search Console) | later |
 
 ## Key decisions (don't undo)
@@ -55,7 +55,7 @@ A portfolio website + admin panel for **Atelier JK&WA Pte. Ltd.** (Singapore, Ja
 
 ## Open items / waiting on
 1. **Owner:** add GitHub repo secrets `SUPABASE_URL` + `SUPABASE_PUBLISHABLE_KEY` (for the daily keep-alive Action). Check if done.
-2. **Admin login (for now):** `rivenwebdesign.aiautomation@gmail.com` (the owner). The client's login is added later the same way (see the ADMIN-GUIDE that Phase 7 writes).
+2. **Admin login (for now):** `rivenwebdesign.aiautomation@gmail.com` (the owner). **Check it exists**: on 3 Nov the `jkwa` project had no auth users and an empty `admins` table, so the PHASE-7 §0 steps need doing there. The client's login is added the same way (`plan/ADMIN-GUIDE.md`, last section).
 3. **Client:**
    - booklet Google Drive link and questionnaire Google Form link (currently `#`)
    - opening hours (placeholder)

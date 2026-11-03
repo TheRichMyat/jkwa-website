@@ -62,8 +62,8 @@ The `images/` folder itself is committed to git **only if the total is under ~50
 | 4 | Projects list + project detail (mockups in `reference/`), data model for admin | ✅ Done |
 | — | FIX-01: client feedback (Services image, Ceylon Road, email) | ✅ Done, live |
 | 6 | Supabase: tables, storage, security rules, seed, connect the data layer, keep-alive | ✅ Done, on `develop` (not yet merged to main) |
-| 7 | Admin panel: login, projects, hero slides, settings | ⏳ Next |
-| 5 | Polish: site-wide scroll reveals + smooth scrolling (see Motion standards), responsive QA, SEO, Privacy/Terms pages, accessibility | after 7 |
+| 7 | Admin panel: login, projects, hero slides, settings | ✅ Done, on `develop` |
+| 5 | Polish: site-wide scroll reveals + smooth scrolling (see Motion standards), responsive QA, SEO, Privacy/Terms pages, accessibility | ⏳ Next |
 | 8 | Launch: Netlify production, client domain, `ALLOW_INDEXING`, Search Console | |
 
 Phases 1–5 are the front end, built with placeholder data. Phases 6–8 are the backend and launch.
