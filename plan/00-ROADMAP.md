@@ -32,7 +32,12 @@ Read this file first in every phase. Then read the phase file you were given.
 7. At the end of every phase:
    - run `npm run lint` and `npm run build` (both must pass)
    - commit with the message `Phase N: <title>`
-   - push to `main`
+   - push to **`develop`** (not `main`)
+
+### Branches & hosting (Netlify Free, from Phase 5 on)
+- **`develop`** is where all work is pushed. Netlify builds it as a *branch deploy* (free, doesn't use credits) at `develop--<site>.netlify.app`, and that's the URL for testing and for the client.
+- **`main`** is production. Only merge `develop` → `main` when the owner explicitly asks. Every production deploy costs Netlify credits (the free plan has a hard monthly cap), so never push to `main` on your own.
+- Netlify settings: base directory `web`, the Next.js adapter is automatic, Node 20+.
    - report back: files created/changed, anything you couldn't do, and any question
 
 ## Real images — `images/` folder at the project root

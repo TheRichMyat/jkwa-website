@@ -11,9 +11,21 @@ const lanAddresses = Object.values(os.networkInterfaces())
   .filter((net) => net && net.family === "IPv4" && !net.internal)
   .map((net) => net!.address);
 
+// Editable images (hero slides, projects) come from Supabase storage. Allow only
+// the public "media" bucket path on this project's host (read from the env, so
+// a project change is just an env change). The Netlify adapter reads this too.
+const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
+  : null;
+
 const nextConfig: NextConfig = {
   /* config options here */
   allowedDevOrigins: lanAddresses,
+  images: {
+    remotePatterns: supabaseHost
+      ? [{ protocol: "https", hostname: supabaseHost, pathname: "/storage/v1/object/public/media/**" }]
+      : [],
+  },
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {

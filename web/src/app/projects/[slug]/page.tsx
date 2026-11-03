@@ -14,10 +14,12 @@ import { getAdjacentProject, getAllProjectSlugs, getProjectBySlug } from "@/lib/
 
 const CATEGORY_LABEL = { residential: "Residential", commercial: "Commercial" } as const;
 
-// Slugs not known at build time (e.g. projects added later in the admin) may
-// block while they render instead of streaming a Suspense fallback. That way an
-// unknown or unpublished slug returns a real HTTP 404 from notFound(), not a
-// streamed 200. Prerendered project pages are unaffected (still static).
+// Slugs not known at build time (e.g. projects added later in the admin) are
+// rendered on request. Since Phase 6 the lookup goes to Supabase, so Next serves
+// the prerendered page shell first: an unknown or unpublished slug shows the
+// not-found page with a noindex tag, but with HTTP status 200 ("soft 404"; see
+// the notFound() docs). A true 404 would need a Proxy lookup on every project
+// view, which isn't worth the cost. Prerendered project pages are unaffected.
 export const instant = false;
 
 // Every published project is prerendered; anything else (unknown or unpublished) 404s
