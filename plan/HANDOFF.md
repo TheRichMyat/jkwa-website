@@ -55,7 +55,7 @@ A portfolio website + admin panel for **Atelier JK&WA Pte. Ltd.** (Singapore, Ja
 
 ## Open items / waiting on
 1. **Owner:** add GitHub repo secrets `SUPABASE_URL` + `SUPABASE_PUBLISHABLE_KEY` (for the daily keep-alive Action). Check if done.
-2. **Admin login (for now):** `rivenwebdesign.aiautomation@gmail.com` (the owner). **Check it exists**: on 3 Nov the `jkwa` project had no auth users and an empty `admins` table, so the PHASE-7 §0 steps need doing there. The client's login is added the same way (`plan/ADMIN-GUIDE.md`, last section).
+2. **Admin logins:** the owner (`rivenwebdesign.aiautomation@gmail.com`) is set up and working. **The client has no login yet**: add it the same way (`plan/ADMIN-GUIDE.md`, last section). Until `develop` is merged to `main`, admin edits show only on develop--jkwa.netlify.app.
 3. **Client:**
    - booklet Google Drive link and questionnaire Google Form link (currently `#`)
    - opening hours (placeholder)
