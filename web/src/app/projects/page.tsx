@@ -7,6 +7,7 @@ import CtaBand from "@/components/sections/CtaBand";
 import Container from "@/components/ui/Container";
 import Eyebrow from "@/components/ui/Eyebrow";
 import { getProjects } from "@/lib/data";
+import { openGraph } from "@/lib/site";
 
 const INTRO =
   "We believe in the power of natural light, proportion, texture and craftsmanship to create timeless spaces.";
@@ -14,6 +15,9 @@ const INTRO =
 export const metadata: Metadata = {
   title: "Our Projects",
   description: INTRO,
+  // Filtered views (?type=…) all point to the one list page
+  alternates: { canonical: "/projects" },
+  openGraph: openGraph("/projects", { title: "Our Projects", description: INTRO }),
 };
 
 export default async function ProjectsPage() {
