@@ -2,21 +2,23 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProjectView from "@/components/project/ProjectView";
 import { getAdjacentProject, getAllProjectSlugs, getProjectBySlug } from "@/lib/data";
+import { jsonLd, openGraph, SITE_NAME, SITE_URL } from "@/lib/site";
 
 const CATEGORY_LABEL = { residential: "Residential", commercial: "Commercial" } as const;
 
-// Slugs not known at build time (e.g. projects added later in the admin) are
-// rendered on request. Since Phase 6 the lookup goes to Supabase, so Next serves
-// the prerendered page shell first: an unknown or unpublished slug shows the
-// not-found page with a noindex tag, but with HTTP status 200 ("soft 404"; see
-// the notFound() docs). A true 404 would need a Proxy lookup on every project
-// view, which isn't worth the cost. Prerendered project pages are unaffected.
-export const instant = false;
+// The whole page is static (every read is "use cache"d). Requiring that also
+// means a slug that wasn't prerendered (a project added later in the admin, or
+// an unknown address) is rendered in full before anything is sent, so an
+// unknown or unpublished slug gets a real HTTP 404 instead of a streamed
+// "soft 404". Next stores the result; the admin's updateTag refreshes it.
+export const ensureStatic = "navigation";
 
 // Every published project is prerendered; anything else (unknown or unpublished) 404s
 export async function generateStaticParams() {
   const slugs = await getAllProjectSlugs();
-  return slugs.map((slug) => ({ slug }));
+  // ensureStatic needs at least one entry: with no published projects, a
+  // placeholder that simply prerenders as the not-found page
+  return slugs.length > 0 ? slugs.map((slug) => ({ slug })) : [{ slug: "none" }];
 }
 
 export async function generateMetadata({ params }: PageProps<"/projects/[slug]">): Promise<Metadata> {
@@ -26,16 +28,19 @@ export async function generateMetadata({ params }: PageProps<"/projects/[slug]">
 
   const description = project.story
     ? truncate(project.story.body.replace(/\s+/g, " "), 155)
-    : `${CATEGORY_LABEL[project.category]} interior design project in ${project.location} by Atelier JK&WA.`;
+    : `${CATEGORY_LABEL[project.category]} interior design project in ${project.location} by ${SITE_NAME}.`;
+  const path = `/projects/${project.slug}`;
 
   return {
     title: project.title,
     description,
-    openGraph: {
+    alternates: { canonical: path },
+    openGraph: openGraph(path, {
+      type: "article",
       title: project.title,
       description,
       images: [{ url: project.cover.src, width: project.cover.width, height: project.cover.height, alt: project.cover.alt }],
-    },
+    }),
   };
 }
 
@@ -52,5 +57,21 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
   if (!project) notFound();
   const next = await getAdjacentProject(slug);
 
-  return <ProjectView project={project} next={next} />;
+  // Home › Projects › this project, for search results
+  const breadcrumbs = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Projects", item: `${SITE_URL}/projects` },
+      { "@type": "ListItem", position: 3, name: project.title, item: `${SITE_URL}/projects/${project.slug}` },
+    ],
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbs) }} />
+      <ProjectView project={project} next={next} />
+    </>
+  );
 }

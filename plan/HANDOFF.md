@@ -1,6 +1,6 @@
 # HANDOFF — read this first in any new session
 
-Last updated: 3 Nov 2026 (after Phase 7). This file is the single "where are we" summary for the Atelier JK&WA website. Any new session (Claude Code or a Claude chat) should read this file, then `plan/00-ROADMAP.md`, before doing anything.
+Last updated: 4 Nov 2026 (Phase 8 steps 1–4, merged to main). This file is the single "where are we" summary for the Atelier JK&WA website. Any new session (Claude Code or a Claude chat) should read this file, then `plan/00-ROADMAP.md`, before doing anything.
 
 ## The project in one paragraph
 A portfolio website + admin panel for **Atelier JK&WA Pte. Ltd.** (Singapore, Japanese-inspired interior design / Design & Build). The owner (the developer) builds it **phase by phase**: a Claude chat writes the phase plan files in `plan/`, Claude Code implements them, and the owner reviews each phase and sends the report back. Desktop design must match the mockups in `reference/` closely. Mobile must feel professional. Motion must be calm and smooth (see DESIGN-SPEC → "Motion & scrolling — standards").
@@ -14,20 +14,20 @@ A portfolio website + admin panel for **Atelier JK&WA Pte. Ltd.** (Singapore, Ja
 | Design mockups | `reference/` (`mockup-full.png` = home, `projects-list-mockup.png`, `project-detail-mockup.png`) |
 | Client's original photos | `PROJECT/` (git-ignored, 53MB). `images/` = older placeholders + `IMAGE-MAP.md` |
 | GitHub | `TheRichMyat/jkwa-website` (private) |
-| Branches | **`develop`** = all work. **`main`** = production; merge only when the owner says so (Netlify Free plan: production deploys cost credits) |
-| Hosting | **Netlify Free**, project `jkwa`. Production: https://jkwa.netlify.app (main). Test: https://develop--jkwa.netlify.app (develop branch deploy). `netlify.toml` at the repo root (base `web`, publish `.next`, Node 20). "Powered by Netlify" badge turned off. |
+| Branches | **`develop`** = all work. **`main`** = production; merge only when the owner says so (each deploy uses ~2 of the 300 monthly build minutes) |
+| Hosting | **Netlify Free (Legacy plan: 100 GB bandwidth, 300 build minutes/month, no credits)**, project `jkwa`. Production: https://jkwa.netlify.app (main). Test: https://develop--jkwa.netlify.app (develop branch deploy). `netlify.toml` at the repo root (base `web`, publish `.next`, Node 20). "Powered by Netlify" badge turned off. |
 | Database | **Supabase**, project `jkwa`, region **Singapore (ap-southeast-1)**, in its **own organization** (separate quota from the owner's other client, Wide-Eleven). URL: `https://lrlocmkmvrnomoawgpfl.supabase.co`. Public sign-ups **OFF**. |
-| Env vars | `web/.env.local` (git-ignored) and Netlify: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` (only this one is marked secret in Netlify), `NEXT_PUBLIC_SITE_URL`. **Never paste key values into chat or commit them.** |
+| Env vars | `web/.env.local` (git-ignored) and Netlify: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` (only this one is marked secret in Netlify), `NEXT_PUBLIC_SITE_URL`, plus from Phase 8 `ALLOW_INDEXING` (`true` in Production only) and optional `GOOGLE_SITE_VERIFICATION`. **Never paste key values into chat or commit them.** |
 
 ## Status
 | Phase | Status |
 |---|---|
 | 0 Setup · 1 Foundation · 2 Hero/About/Quotes · 3 Services/Portfolio/Contact · 4 Projects list + detail | ✅ done, approved |
 | FIX-01 client feedback (sharp Services image, Ceylon Road only, email → wadesign@gmail.com) | ✅ done, **live on main** |
-| 6 Supabase (schema, storage bucket `media`, RLS, seed, data layer, keep-alive workflow) | ✅ done, **on develop only**, verified on develop--jkwa.netlify.app |
-| 7 Admin panel (login, projects, hero slides, settings) at `/admin` | ✅ done, **on develop only**. Guide: `plan/ADMIN-GUIDE.md` |
-| **5 Polish** (scroll reveals, Lenis desktop smooth scroll, performance ≥90, SEO + `ALLOW_INDEXING` switch, Privacy/Terms drafts, a11y) | ⏳ **NEXT**: `PHASE-5-polish.md` (`app/robots.ts` already exists from Phase 7 and disallows `/admin`; extend it) |
-| 8 Launch (merge to main, client domain, `ALLOW_INDEXING=true`, Search Console) | later |
+| 6 Supabase (schema, storage bucket `media`, RLS, seed, data layer, keep-alive workflow) | ✅ done, merged to main |
+| 7 Admin panel (login, projects, hero slides, settings) at `/admin` | ✅ done, merged to main. Guide: `plan/ADMIN-GUIDE.md` |
+| **8 Launch** (`PHASE-8-launch.md`) | Steps 1–4 ✅ (SEO, sitemap, robots switch, real 404, legal pages hidden) and **merged to main**. ⏳ Owner: connect the domain + Production env vars (§5), then step 6 verification |
+| 5 Polish (scroll reveals, Lenis, performance, a11y; its SEO/404/legal parts were done in Phase 8) | after launch |
 
 ## Key decisions (don't undo)
 - **Content:** page text is fixed in code. The admin edits only: projects, hero slides, settings (contact details, booklet + questionnaire links, socials).
@@ -63,9 +63,9 @@ A portfolio website + admin panel for **Atelier JK&WA Pte. Ltd.** (Singapore, Ja
    - confirm Ceylon Road is residential
    - real facts/story for Ceylon Road
 4. **Client:** confirm the other `PROJECT/` folders (ANOTHER, APROZ, PR-01, 文藝春秋) are their own work before publishing (some look like other brands' photos).
-5. **Phase 6 note:** unknown project URLs show a "not available" page as a **soft 404**. Make it a real 404 in Phase 5 or 7.
-6. **Legal:** Privacy/Terms are drafts (Phase 5), and the client must approve them before launch.
-7. **Hosting caution:** Netlify Free has a hard 300-credit monthly cap (the site pauses if exceeded). Turn on usage notifications. Tell the client a ~US$20/month upgrade may be needed if traffic grows.
+5. **Launch blockers in content:** the Booklet and Questionnaire links are still `#` (Admin → Settings).
+6. **Legal:** `/privacy` and `/terms` are drafts, hidden until the client approves them. Then set `LEGAL_APPROVED = true` in `web/src/lib/content/legal.ts` and deploy (footer links + indexing + sitemap switch on).
+7. **Hosting:** the Netlify team is on the **Legacy Free** plan (no credits): 100 GB bandwidth and 300 build minutes a month. Admin edits don't trigger builds. Turn on usage notifications.
 
 ## How to resume
 **In a new Claude Code session**, paste:

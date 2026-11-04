@@ -1,9 +1,14 @@
 import type { MetadataRoute } from "next";
+import { ALLOW_INDEXING, SITE_URL } from "@/lib/site";
 
-// The admin panel is never crawled. Phase 5 adds the sitemap and the
-// ALLOW_INDEXING switch here.
+// Until ALLOW_INDEXING is "true" (Production only), nothing may be crawled, so
+// the develop deploy and localhost never end up in search results. The admin
+// panel is never crawled either way.
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: "*", allow: "/", disallow: "/admin" },
+    rules: ALLOW_INDEXING
+      ? { userAgent: "*", allow: "/", disallow: "/admin" }
+      : { userAgent: "*", disallow: "/" },
+    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }

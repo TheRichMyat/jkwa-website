@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Jost } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PublicChrome from "@/components/layout/PublicChrome";
+import { ALLOW_INDEXING, openGraph, SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -19,12 +20,21 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
+  // Relative canonical / Open Graph URLs below resolve against the site's own address
+  metadataBase: new URL(SITE_URL),
   title: {
-    template: "%s | Atelier JK&WA",
-    default: "Atelier JK&WA — Japanese Inspired Interior Design",
+    template: `%s | ${SITE_NAME}`,
+    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
   },
-  description:
-    "Blending traditional values with modern living, we create spaces that bring balance, beauty and a sense of peace to your everyday life.",
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: openGraph("/"),
+  twitter: { card: "summary_large_image" },
+  // Kept out of search engines everywhere except the production site (ALLOW_INDEXING)
+  robots: ALLOW_INDEXING ? undefined : { index: false, follow: false },
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

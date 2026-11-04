@@ -10,6 +10,7 @@ import {
   PinterestIcon,
   YoutubeIcon,
 } from "@/components/icons/SocialIcons";
+import { LEGAL_APPROVED, LEGAL_PAGES } from "@/lib/content/legal";
 import { getSettings, type SiteSettings } from "@/lib/data";
 import CopyrightYear from "./CopyrightYear";
 import { NAV_ITEMS, sectionHref } from "./nav";
@@ -28,11 +29,8 @@ const SOCIALS: {
   { key: "youtube", label: "YouTube", Icon: YoutubeIcon },
 ];
 
-const LEGAL_LINKS = [
-  { href: "/privacy", label: "Privacy Policy" },
-  { href: "/terms", label: "Terms & Conditions" },
-  { href: "/sitemap.xml", label: "Sitemap" },
-];
+// Linked only once the client has approved the wording (lib/content/legal.ts)
+const LEGAL_LINKS = LEGAL_APPROVED ? LEGAL_PAGES : [];
 
 // Links are 44px tall on touch layouts, compact from lg
 const linkClass =
@@ -167,22 +165,18 @@ export default async function Footer() {
           <p>
             © <CopyrightYear /> {settings.companyName} All rights reserved.
           </p>
-          <ul className="flex items-center">
-            {LEGAL_LINKS.map((link, i) => (
-              <li key={link.href} className="flex items-center">
-                {i > 0 && <span aria-hidden className="mx-3 h-3 w-px bg-white/20" />}
-                {link.href.endsWith(".xml") ? (
-                  <a href={link.href} className={legalLinkClass}>
-                    {link.label}
-                  </a>
-                ) : (
+          {LEGAL_LINKS.length > 0 && (
+            <ul className="flex items-center">
+              {LEGAL_LINKS.map((link, i) => (
+                <li key={link.href} className="flex items-center">
+                  {i > 0 && <span aria-hidden className="mx-3 h-3 w-px bg-white/20" />}
                   <Link href={link.href} className={legalLinkClass}>
                     {link.label}
                   </Link>
-                )}
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+          )}
         </Container>
       </div>
     </footer>
