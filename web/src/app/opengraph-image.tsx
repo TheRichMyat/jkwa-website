@@ -1,5 +1,5 @@
-import { readFile } from "node:fs/promises";
 import { ImageResponse } from "next/og";
+import { CORMORANT_WOFF, JOST_WOFF, LOGO_MARK_PNG } from "@/lib/og-assets";
 import { SITE_NAME, SITE_TAGLINE } from "@/lib/site";
 
 // Default share image for every page without its own (project pages use their cover)
@@ -14,15 +14,10 @@ const GOLD = "#b28e5a";
 const GOLD_DEEP = "#88673f";
 const MUTED = "#726c63";
 
-export default async function Image() {
-  // new URL(…, import.meta.url) makes the bundler ship these files with the
-  // route, so they're there when the server renders it on Netlify
-  const [cormorant, jost, logo] = await Promise.all([
-    readFile(new URL("../../assets/fonts/cormorant-garamond-latin-400-normal.woff", import.meta.url)),
-    readFile(new URL("../../assets/fonts/jost-latin-400-normal.woff", import.meta.url)),
-    readFile(new URL("../../public/brand/logo-mark-gold.png", import.meta.url)),
-  ]);
-  const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
+export default function Image() {
+  const cormorant = Buffer.from(CORMORANT_WOFF, "base64");
+  const jost = Buffer.from(JOST_WOFF, "base64");
+  const logoSrc = `data:image/png;base64,${LOGO_MARK_PNG}`;
 
   return new ImageResponse(
     (
