@@ -26,7 +26,7 @@ A portfolio website + admin panel for **Atelier JK&WA Pte. Ltd.** (Singapore, Ja
 | FIX-01 client feedback (sharp Services image, Ceylon Road only, email → wadesign@gmail.com) | ✅ done, live |
 | 6 Supabase (schema, storage bucket `media`, RLS, seed, data layer, keep-alive workflow) | ✅ done, live |
 | 7 Admin panel (login, projects, hero slides, settings) at `/admin` | ✅ done, live at https://atelier-wa.com/admin. Guide: `plan/ADMIN-GUIDE.md` |
-| 8 Launch (`PHASE-8-launch.md`) | ✅ done: live on **https://atelier-wa.com** (7 Nov 2026). Step 6 checks pass except the HTTPS certificate, which Netlify hadn't issued yet (open item 1) |
+| 8 Launch (`PHASE-8-launch.md`) | ✅ done: live on **https://atelier-wa.com** (7 Nov 2026). Step 6 checks all pass (HTTPS, redirects, 404, robots, sitemap, canonical/OG/JSON-LD) |
 | **5 Polish** (`PHASE-5-polish.md`: scroll reveals, Lenis, performance, responsive QA, a11y; its SEO/404/legal parts were already done in Phase 8) | ⏳ **NEXT** |
 
 ## Key decisions (don't undo)
@@ -54,7 +54,7 @@ A portfolio website + admin panel for **Atelier JK&WA Pte. Ltd.** (Singapore, Ja
   - RLS is on every table
 
 ## Open items / waiting on
-1. **HTTPS for atelier-wa.com (owner, urgent):** on 7 Nov the domain still served Netlify's `*.netlify.app` certificate, so browsers show a security warning on https://atelier-wa.com and https://www.atelier-wa.com. DNS is correct. In Netlify → Domain management → HTTPS, press **Verify DNS configuration** / **Provision certificate** (Let's Encrypt). Once issued, re-check: padlock on both, `https://www` → `https://atelier-wa.com` redirect, and `jkwa.netlify.app` → primary domain redirect.
+1. ✅ **HTTPS for atelier-wa.com:** Let's Encrypt certificate live on 7 Nov (covers apex + www). `http://` and `https://www` 301 to `https://atelier-wa.com`. `jkwa.netlify.app` still serves the site without redirecting (Netlify default); harmless, since its canonical URLs point to atelier-wa.com. Optional: a host-specific 301 in `netlify.toml`.
 2. **Owner:** add GitHub repo secrets `SUPABASE_URL` + `SUPABASE_PUBLISHABLE_KEY` (for the daily keep-alive Action). Check if done.
 3. **Admin logins:** the owner (`rivenwebdesign.aiautomation@gmail.com`) is set up and working. **The client has no login yet**: add it the same way (`plan/ADMIN-GUIDE.md`, last section). Admin edits go live straight away (no deploy). Supabase → Authentication → URL Configuration should have Site URL `https://atelier-wa.com` and `https://atelier-wa.com/**` + `https://www.atelier-wa.com/**` in Redirect URLs (owner to confirm; password-reset emails depend on it).
 4. **Client:**
