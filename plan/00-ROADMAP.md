@@ -61,9 +61,9 @@ The `images/` folder itself is committed to git **only if the total is under ~50
 | 3 | Services, Portfolio carousel, Contact | ✅ Done (approved) |
 | 4 | Projects list + project detail (mockups in `reference/`), data model for admin | ✅ Done |
 | — | FIX-01: client feedback (Services image, Ceylon Road, email) | ✅ Done, live |
-| 6 | Supabase: tables, storage, security rules, seed, connect the data layer, keep-alive | ✅ Done, on `develop` (not yet merged to main) |
-| 7 | Admin panel: login, projects, hero slides, settings | ✅ Done, on `develop` |
-| 5 | Polish: site-wide scroll reveals + smooth scrolling (see Motion standards), responsive QA, performance, accessibility (SEO/404/legal parts moved into Phase 8) | after launch |
-| 8 | Launch: SEO essentials, real 404, legal pages (hidden until approved), merge to main, client domain (`PHASE-8-launch.md`) | ⏳ Next (today) |
+| 6 | Supabase: tables, storage, security rules, seed, connect the data layer, keep-alive | ✅ Done, live |
+| 7 | Admin panel: login, projects, hero slides, settings | ✅ Done, live |
+| 5 | Polish: site-wide scroll reveals + smooth scrolling (see Motion standards), responsive QA, performance, accessibility (SEO/404/legal parts moved into Phase 8) | ⏳ Next |
+| 8 | Launch: SEO essentials, real 404, legal pages (hidden until approved), merge to main, client domain (`PHASE-8-launch.md`) | ✅ Done, live on https://atelier-wa.com |
 
 Phases 1–5 are the front end, built with placeholder data. Phases 6–8 are the backend and launch.
